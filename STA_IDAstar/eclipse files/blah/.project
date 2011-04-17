@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>blah</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.python.pydev.PyDevBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.python.pydev.pythonNature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>src/coalitionNode.py</name>
+			<type>1</type>
+			<location>C:/Documents and Settings/Shuvo Saha/Desktop/ROBOTICS/TESTING/STA_IDAstar/coalitionNode.py</location>
+		</link>
+		<link>
+			<name>src/coalitionTree.py</name>
+			<type>1</type>
+			<location>C:/Documents and Settings/Shuvo Saha/Desktop/ROBOTICS/TESTING/STA_IDAstar/coalitionTree.py</location>
+		</link>
+		<link>
+			<name>src/createData.py</name>
+			<type>1</type>
+			<location>C:/Documents and Settings/Shuvo Saha/Desktop/ROBOTICS/TESTING/STA_IDAstar/createData.py</location>
+		</link>
+		<link>
+			<name>src/createTaskSchedule.py</name>
+			<type>1</type>
+			<location>C:/Documents and Settings/Shuvo Saha/Desktop/ROBOTICS/TESTING/STA_IDAstar/createTaskSchedule.py</location>
+		</link>
+		<link>
+			<name>src/createTaskScheduleASTAR.py</name>
+			<type>1</type>
+			<location>C:/Documents and Settings/Shuvo Saha/Desktop/ROBOTICS/TESTING/STA_IDAstar/createTaskScheduleASTAR.py</location>
+		</link>
+		<link>
+			<name>src/taskNode.py</name>
+			<type>1</type>
+			<location>C:/Documents and Settings/Shuvo Saha/Desktop/ROBOTICS/TESTING/STA_IDAstar/taskNode.py</location>
+		</link>
+		<link>
+			<name>src/treeNode.py</name>
+			<type>1</type>
+			<location>C:/Documents and Settings/Shuvo Saha/Desktop/ROBOTICS/TESTING/STA_IDAstar/treeNode.py</location>
+		</link>
+	</linkedResources>
+</projectDescription>
