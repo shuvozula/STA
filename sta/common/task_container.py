@@ -1,6 +1,6 @@
 __author__ = 'Spondon Saha'
 
-from bidcontainer import BidNode
+from common.bid_container import BidContainer
 
 
 class Error(Exception):
@@ -8,7 +8,7 @@ class Error(Exception):
     pass
 
 
-class TaskNode(object):
+class TaskContainer(object):
     """Container for storing task details and bids submitted for it."""
 
     def __init__(self, taskname):
@@ -58,5 +58,5 @@ class TaskNode(object):
         Returns:
             None
         """
-        bid_node = BidNode(coalition, bid_value)
+        bid_node = BidContainer(coalition, bid_value)
         self.bidlist.append(bid_node)

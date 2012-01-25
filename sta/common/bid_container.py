@@ -6,7 +6,7 @@ class Error(Exception):
     pass
 
 
-class BidNode(object):
+class BidContainer(object):
     """Container for storing bid details."""
 
     def __init__(self, coalition, bid):

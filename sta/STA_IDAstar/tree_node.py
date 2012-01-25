@@ -27,19 +27,19 @@ class TreeNode(object):
         self.parent = None
         self.children = []
         self.blocked = True
-        self.heuristicVal = 0.0
-        self.futureNodes = None
-        self.winnerOnPath = False
+        self.heuristic_val = 0.0
+        self.future_nodes = None
+        self.winner_on_path = False
         # - - - - - - - - - - - - - -
         self.bid_node = bid_node
-        self.coalitionsOnPath = []
+        self.coalitions_on_path = []
         self.robots_on_path = robots_on_path
         # - - - - - - - - - - - - - -
-        self.memberOfTask = None
+        self.member_of_task = None
         # stores the list of tasks excluding task-levels taken up by dummy nodes
-        self.tasksOnPath = []
+        self.tasks_on_path = []
         # stores the list of all the tasks that are used up on the current path
-        self.allTasksOnPath = [] 
+        self.all_tasks_on_path = [] 
         
         
         
