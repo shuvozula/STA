@@ -3,21 +3,20 @@ __author__ = 'Spondon Saha'
 
 import gflags
 import logging
-from common.bid_container import BidContainer
-from tree_node import TreeNode
+from sta.common.bid_container import BidContainer
+from sta.sta_idastar.tree_node import TreeNode
 
 
 class CoalitionTree(object):
     """Contains the core logic for the STA IDA* algorithm."""
 
-    def __init__(self, cbt_list, screen_dump):
+    def __init__(self, cbt_list):
         """Constructor.
 
         Arguments:
             cbt_list: A list of task_container.TaskContainer objects which
             contain the list of bid_container.BidContainer objects that were
             submitted for the task.
-            screen_dump: A boolean value to enable/disable screen printing.
 
         Raises:
             None
@@ -25,18 +24,15 @@ class CoalitionTree(object):
         self.cbt_list = cbt_list
         self.root = TreeNode('root', [], []) # name, coalition, onPath
         self.root.blocked = False
-#        self.orderOfTasks = []
-#        self.bestRevenue = 0
-#        self.bestPartition = None
-#        self.chosenTasks = []
-        
-        # A-star variables
-        self.nodeHeuristics = [] # used for collecting all the heuristics for each node for a particular task level
+        # A-star variables: used for collecting all the heuristics for each
+        # node at a particular task level
+        self.nodeHeuristics = []
         self.leaves = [] # used for collecting all the leaf nodes
         self.winnerNode = None
-        
-        # f-limit for use in the IDA-star algorithm 
-        self.f_limit = 0.0 # we are trying to maximize our revenue, hence the f-limit starts at zero
+        # f-limit for use in the IDA-star algorithm
+        # we are trying to maximize our revenue, hence the f-limit
+        # starts at zero
+        self.f_limit = 0.0
         
         # declarations below used for statistical data collection
         self.nodecount = 0
@@ -44,9 +40,6 @@ class CoalitionTree(object):
         self.regularNodeCount = 0
         self.dummyTime = 0.0
         self.regularTime = 0.0
-        
-        # enable/disable print
-        self.screen_dump = screen_dump
 
     def HasMember(self, c1, c2):
         """Checks if 2 coalitions has overlapping robots.
@@ -64,18 +57,9 @@ class CoalitionTree(object):
             not.
         """
         for elem in c2:
-            if (c1.count(elem) > 0):
+            if elem in c1:
                 return True
         return False
-
-    def displayWinner(self):
-        """"""
-        logging.info('')
-        logging.info('WINNING COALITIONS AND TASKS')
-        logging.info('')
-        logging.info('Winning coalitions --> %s', self.winnerNode.coalitionsOnPath)
-        logging.info('Respective tasks   --> %s', self.winnerNode.tasksOnPath)
-        logging.info('Revenue fetched    --> %s', self.winnerNode.totalRevenue)
 
     def ConstructTree(self):
         """The main IDA* outer loop.
@@ -115,12 +99,17 @@ class CoalitionTree(object):
         logging.info('-------------------------------------------------------')
         logging.info('<<<<<<<< CONSTRUCTING COALITION TREE COMPLETED >>>>>>>>')
         logging.info('-------------------------------------------------------')
-        logging.info('\n\tWINNING COALITIONS AND TASKS\n\t')
+        logging.info('WINNING COALITIONS AND TASKS')
         logging.info('Winning coalitions --> %s', winners)
         logging.info('Respective tasks   --> %s', selected_tasks)
         logging.info('Revenue fetched    --> %s', new_f)
         logging.info('Visited States     --> %s', self.nodecount)
-        return [str(winners), str(selected_tasks), str(new_f), self.nodecount]
+        results = {}
+        results['winners'] = winners
+        results['selected_tasks'] = selected_tasks
+        results['new_f'] = new_f
+        results['node_count'] = self.nodecount
+        return results
 
     def DfsContour(self, node, cbt_list, winners, task_list, g):
         """The DFS (Depth First Search) Contour algorithm.
@@ -209,12 +198,12 @@ class CoalitionTree(object):
             rest_of_cbtlist = cbt_list[1:]
             new_winners = winners + [child.GetCoalition()]
             new_tasklist = task_list + [task_name]
-            new_g = g + int(child.getBid())
-            solution, tasks, new_f = self.DFS_Contour(child_node,
-                                                      rest_of_cbtlist,
-                                                      new_winners,
-                                                      new_tasklist,
-                                                      new_g)
+            new_g = g + int(child.GetBidValue())
+            solution, tasks, new_f = self.DfsContour(child_node,
+                                                     rest_of_cbtlist,
+                                                     new_winners,
+                                                     new_tasklist,
+                                                     new_g)
             logging.info('        -- returning from DFS contour to node %s ...',
                          node.name)
             if solution and (new_f > max_revenue):
@@ -290,14 +279,14 @@ class CoalitionTree(object):
             childNode.coalitions_on_path = parent_node.coalitions_on_path[:]
             # extra operation than DUMMY
             childNode.coalitions_on_path.append(coalition)
-            childNode.totalRevenue = parent_node.totalRevenue + bid_value
+            childNode.total_revenue = parent_node.total_revenue + int(bid_value)
             # deep copy the entire list
-            childNode.tasksOnPath = parent_node.tasksOnPath[:]
+            childNode.tasks_on_path = parent_node.tasks_on_path[:]
             # extra operation than DUMMY
-            childNode.tasksOnPath.append(task_name)
-            childNode.memberOfTask = task_name
-            childNode.allTasksOnPath = parent_node.allTasksOnPath[:]
-            childNode.allTasksOnPath.append(task_name)
+            childNode.tasks_on_path.append(task_name)
+            childNode.member_of_task = task_name
+            childNode.all_tasks_on_path = parent_node.all_tasks_on_path[:]
+            childNode.all_tasks_on_path.append(task_name)
             # add the child node as a child of the parent node
             #parent_node.children.append(childNode)
             return childNode
@@ -305,11 +294,11 @@ class CoalitionTree(object):
             dummyNode = TreeNode('dummy', [], parent_node.robots_on_path)
             dummyNode.parent = parent_node
             dummyNode.coalitions_on_path = parent_node.coalitions_on_path[:]
-            dummyNode.totalRevenue = parent_node.totalRevenue
-            dummyNode.tasksOnPath = parent_node.tasksOnPath
-            dummyNode.memberOfTask = task_name
-            dummyNode.allTasksOnPath = parent_node.allTasksOnPath[:]
-            dummyNode.allTasksOnPath.append(task_name)
+            dummyNode.total_revenue = parent_node.total_revenue
+            dummyNode.tasks_on_path = parent_node.tasks_on_path
+            dummyNode.member_of_task = task_name
+            dummyNode.all_tasks_on_path = parent_node.all_tasks_on_path[:]
+            dummyNode.all_tasks_on_path.append(task_name)
             return dummyNode
 
     def EstimateHeuristic(self, coalitions_on_path, all_tasks_on_path,

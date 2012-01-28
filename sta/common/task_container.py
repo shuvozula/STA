@@ -1,6 +1,6 @@
 __author__ = 'Spondon Saha'
 
-from common.bid_container import BidContainer
+from sta.common.bid_container import BidContainer
 
 
 class Error(Exception):
@@ -11,17 +11,18 @@ class Error(Exception):
 class TaskContainer(object):
     """Container for storing task details and bids submitted for it."""
 
-    def __init__(self, taskname):
+    def __init__(self, task_name):
         """Constructor.
 
         Arguments:
-            taskname: The task id.
+            task_name: The task id.
 
         Raises:
             None
         """
-        self.taskname = taskname
+        self.task_name = task_name
         self.bidlist = []
+        self.num_bids = 0
 
     def GetBidList(self):
         """Accessor for the list of bids stored.
@@ -34,16 +35,16 @@ class TaskContainer(object):
         """
         return self.bidlist
 
-    def IsTask(self, task):
+    def IsTask(self, task_name):
         """Boolean method to verify task id.
 
         Arguments:
-            task: a task-id.
+            task_name: a task-id.
 
         Returns:
             A boolean value.
         """
-        if (self.taskname == task):
+        if (self.task_name == task_name):
             return True
         else:
             return False
@@ -60,3 +61,4 @@ class TaskContainer(object):
         """
         bid_node = BidContainer(coalition, bid_value)
         self.bidlist.append(bid_node)
+        self.num_bids += 1

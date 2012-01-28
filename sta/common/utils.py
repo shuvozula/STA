@@ -3,7 +3,9 @@ __author__ = 'Spondon Saha'
 import os
 import logging
 
-LOGGING_LEVEL = logging.DEBUG
+DEFAULT_LOGGING_LEVEL = logging.DEBUG
+DEFAULT_LOG_FILE = 'sta.out'
+DEFAULT_LOG_DIR = '/tmp'
 
 
 class Error(Exception):
@@ -11,38 +13,26 @@ class Error(Exception):
     pass
 
 
-class Utils(object):
-    """Utility class for commonly used methods."""
+def SetupLogging(logging_level=DEFAULT_LOGGING_LEVEL,
+                 log_dir=DEFAULT_LOG_DIR,
+                 log_file=DEFAULT_LOG_FILE):
+    """Sets up the logging parameters.
 
-    def __init__(self, debug_mode=False):
-        """Constructor.
+    Uses the logging library to create a log file, set the log-level,
+    log file-mode, logging format, etc.
 
-        Arguments:
-            debug_mode: a boolean flag for signifying debug mode.
+    Arguments:
+        logging_level(optional): A valid logging level, usually DEBUG, INFO,
+        WARNING, etc.
+        log_dir(optional): Log directory path
+        log_file(optional): Name of log file
 
-        Raises:
-            None
-        """
-        self.debug_mode = debug_mode
-        self.SetupLogging()
-
-    def SetupLogging(self):
-        """Sets up the logging parameters.
-
-        Uses the logging library to create a log file, set the log-level,
-        log file-mode, logging format, etc.
-
-        Arguments:
-            None
-
-        Raises:
-            None
-        """
-        log_file = 'sta.out'
-        log_dir = '/tmp/'
-        logging.basicConfig(filename=os.path.join(log_dir, log_file),
-                            filemode='w',
-                            level=LOGGING_LEVEL,
-                            format='%(asctime)s %(levelname)s:: %(message)s',
-                            datefmt='%m/%d/%Y %I:%M:%S %p')
+    Raises:
+        None
+    """
+    logging.basicConfig(filename=os.path.join(log_dir, log_file),
+                        filemode='w',
+                        level=logging_level,
+                        format='%(asctime)s %(levelname)s:: %(message)s',
+                        datefmt='%m/%d/%Y %I:%M:%S %p')
     

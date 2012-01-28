@@ -23,7 +23,7 @@ class TreeNode(object):
             None
         """
         self.name = name
-        self.totalRevenue = 0
+        self.total_revenue = 0
         self.parent = None
         self.children = []
         self.blocked = True
