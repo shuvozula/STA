@@ -9,7 +9,7 @@ import time
 import traceback
 import sta.common.utils
 from sta.common.task_container import TaskContainer
-from sta.sta_idastar.coalition_tree import CoalitionTree
+
 
 FLAGS = gflags.FLAGS
 
@@ -19,8 +19,13 @@ gflags.DEFINE_string('bid_file',
                      'Location of the bid file to create the STA tree.',
                      short_name = 'f')
 
+gflags.DEFINE_string('sta_run_type',
+                     None,
+                     'Type of run, either ida_star, astar or regular.')
+
 # required flags
 gflags.MarkFlagAsRequired('bid_file')
+gflags.MarkFlagAsRequired('sta_run_type')
 
 
 class Error(Exception):
@@ -144,6 +149,20 @@ def main(argv):
             raise Error('Error encountered when opening bid-file: \\n%s' % ex)
     else:
         raise Error('No bid-file parameter value passed.')
+    # determine the kind of run: ida-star, a-star or regular
+    if FLAGS.sta_run_type is not None:
+        if FLAGS.sta_run_type is 'ida_star':
+            from sta.sta_idastar.coalition_tree import CoalitionTree
+        elif FLAGS.sta_run_type is 'a_star':
+            pass
+        elif FLAGS.sta_run_type is 'regular':
+            pass
+        else:
+            raise Error(('Run type not recognized. Needs to be either of'
+                         'regular, a_star or ida_star. You Entered: '
+                         '%s') % FLAGS.sta_run_type)
+    else:
+        raise Error('No run-type mentioned: ida_star, a_star or regular')
     # read all file contents
     submitted_bids = fp.read()
     # start the STA algorithm
