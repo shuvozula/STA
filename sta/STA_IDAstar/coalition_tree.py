@@ -24,22 +24,11 @@ class CoalitionTree(object):
         self.cbt_list = cbt_list
         self.root = TreeNode('root', [], []) # name, coalition, onPath
         self.root.blocked = False
-        # A-star variables: used for collecting all the heuristics for each
-        # node at a particular task level
-        self.nodeHeuristics = []
-        self.leaves = [] # used for collecting all the leaf nodes
-        self.winnerNode = None
-        # f-limit for use in the IDA-star algorithm
-        # we are trying to maximize our revenue, hence the f-limit
-        # starts at zero
+        # f-limit for use in the IDA-star algorithm: we are trying to maximize
+        # our revenue, hence the f-limit starts at zero
         self.f_limit = 0.0
-        
         # declarations below used for statistical data collection
         self.nodecount = 0
-        self.dummyNodeCount = 0
-        self.regularNodeCount = 0
-        self.dummyTime = 0.0
-        self.regularTime = 0.0
 
     def HasMember(self, c1, c2):
         """Checks if 2 coalitions has overlapping robots.
