@@ -56,7 +56,7 @@ def GetSubmittedBids(text_stream):
     """
     task_nodes = {}
     lines = text_stream.split('\n')
-    logging.debug('Num bids submitted: %s' % len(lines))
+    logging.info('Num bids submitted: %s' % len(lines))
     # store coalitions and task bids
     for line in lines:
         task_id, coalition, bid_value = line.split(' ')
@@ -73,20 +73,20 @@ def GetSubmittedBids(text_stream):
             task_nodes[task_id][0] += 1
             task_nodes[task_id][1].AddBid(coalition, bid_value)
     # sort the list based on the number of coalitions assigned to each task
-    logging.debug('Sorting list of TaskContainer objects to priority queue....')
+    logging.info('Sorting list of TaskContainer objects to priority queue....')
     task_nodes_heapq = task_nodes.values()
     heapq.heapify(task_nodes_heapq)
-    logging.debug('Done converting to priority queue/heap!')
+    logging.info('Done converting to priority queue/heap!')
     # for display only
-    logging.debug('Showing tasks with increasing number of submitted bids...')
+    logging.info('Showing tasks with increasing number of submitted bids...')
     for count, task_node in task_nodes_heapq:
-        logging.debug('Task <%s>' % task_node.task_name)
+        logging.info('Task <%s>' % task_node.task_name)
         bid_containers = task_node.GetBidList()
         coalitions = [x.GetCoalition() for x in bid_containers]
         bid_values = [x.GetBidValue() for x in bid_containers]
         log_msgs = map(lambda x: '    %s, $%s' % (x[0], x[1]),
                        zip(coalitions, bid_values))
-        map(lambda x: logging.debug(x), log_msgs)
+        map(lambda x: logging.info(x), log_msgs)
     bid_counts, task_nodes = zip(*task_nodes_heapq)
     return list(task_nodes)
 
@@ -158,7 +158,7 @@ def main(argv):
         logging.error(err_msg)
         raise Error(err_msg)
     else:
-        logging.debug('Total Execution time: %s' % output['exe_time'])
+        logging.info('Total Execution time: %s' % output['exe_time'])
 
 
 if __name__ == "__main__":
