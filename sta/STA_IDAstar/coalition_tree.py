@@ -218,7 +218,8 @@ class CoalitionTree(object):
         """
         eligible_coalitions = []
         for child in current_children:
-            if not sta.common.utils.HasMember(robots_on_path, child.GetCoalition()):
+            if not sta.common.utils.HasMember(robots_on_path,
+                                              child.GetCoalition()):
                 eligible_coalitions.append(child)
         return eligible_coalitions
 
