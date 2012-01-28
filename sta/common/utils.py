@@ -35,4 +35,24 @@ def SetupLogging(logging_level=DEFAULT_LOGGING_LEVEL,
                         level=logging_level,
                         format='%(asctime)s %(levelname)s:: %(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
+
+def HasMember(c1, c2):
+    """Checks if 2 coalitions has overlapping robots.
+
+    For maintaining the Partition property, we need to make sure that
+    all coalitions on a certain path in the STA tree have non-overlapping
+    coalitions.
+
+    Arguments:
+        c1: coalition 1
+        c2: coalition 2
+
+    Returns:
+        A boolean to signify if 2 coalitions have overlapping members or
+        not.
+    """
+    for elem in c2:
+        if elem in c1:
+            return True
+    return False
     

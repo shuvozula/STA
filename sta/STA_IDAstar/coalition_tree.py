@@ -3,6 +3,7 @@ __author__ = 'Spondon Saha'
 
 import gflags
 import logging
+import sta.common.utils
 from sta.common.bid_container import BidContainer
 from sta.sta_idastar.tree_node import TreeNode
 
@@ -29,26 +30,6 @@ class CoalitionTree(object):
         self.f_limit = 0.0
         # declarations below used for statistical data collection
         self.nodecount = 0
-
-    def HasMember(self, c1, c2):
-        """Checks if 2 coalitions has overlapping robots.
-
-        For maintaining the Partition property, we need to make sure that
-        all coalitions on a certain path in the STA tree have non-overlapping
-        coalitions.
-
-        Arguments:
-            c1: coalition 1
-            c2: coalition 2
-
-        Returns:
-            A boolean to signify if 2 coalitions have overlapping members or
-            not.
-        """
-        for elem in c2:
-            if elem in c1:
-                return True
-        return False
 
     def ConstructTree(self):
         """The main IDA* outer loop.
@@ -237,7 +218,7 @@ class CoalitionTree(object):
         """
         eligible_coalitions = []
         for child in current_children:
-            if not self.HasMember(robots_on_path, child.GetCoalition()):
+            if not sta.common.utils.HasMember(robots_on_path, child.GetCoalition()):
                 eligible_coalitions.append(child)
         return eligible_coalitions
 
@@ -335,12 +316,12 @@ class CoalitionTree(object):
                 coalition = cnode.GetCoalition()
                 # if the robot is a member of the current coalition,
                 # then proceed
-                if (self.HasMember(coalition, [robot])):
+                if sta.common.utils.HasMember(coalition, [robot]):
                     # check if the coalition has any robots that are previously
                     # in the path 
                     onPath = False
                     for c in coalitions_on_path: 
-                        if (self.HasMember(coalition, c)):
+                        if sta.common.utils.HasMember(coalition, c):
                             onPath = True
                             break
                     # if not, then collect its heuristic
