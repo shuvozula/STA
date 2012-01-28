@@ -1,0 +1,408 @@
+BidLimit: 10
+Creating data....(0)
+T2 8,5,9 10
+T2 7,1 9
+T1 10,6,2 6
+T3 2,10,7 2
+T1 7,3,6 5
+T3 10 2
+T1 6,10,9 8
+T3 7,2 3
+T3 10,9 4
+T1 4,6 5
+- - - - - - - - - - - - - - - - -
+Count of the bids per task: [4, 2, 4]
+----------------------------------------------------
+T2 8,5,9 10
+T2 7,1 9
+T1 10,6,2 6
+T3 2,10,7 2
+T1 7,3,6 5
+T3 10 2
+T1 6,10,9 8
+T3 7,2 3
+T3 10,9 4
+T1 4,6 5
+Finished Creating data!!
+Executing data on algorithm....
+10
+-------------------------------------------------------------
+<<<<<<<<<<< SORTING TASKS BY NUMBER OF COALITIONS >>>>>>>>>>>
+-------------------------------------------------------------
+sorting....
+done sorting...
+
+Displaying all bids submitted per task...
+Showing tasks with increasing number of submitted bids...
+
+Task <T2>
+
+    [8, 5, 9], $10
+    [7, 1], $9
+
+Task <T1>
+
+    [10, 6, 2], $6
+    [7, 3, 6], $5
+    [6, 10, 9], $8
+    [4, 6], $5
+
+Task <T3>
+
+    [2, 10, 7], $2
+    [10], $2
+    [7, 2], $3
+    [10, 9], $4
+
+-------------------------------------------------------------
+<<<<<<<<<<<<<<<< CONSTRUCTING COALITION TREE >>>>>>>>>>>>>>>>
+-------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^
+^^^^^ TASK T2 ^^^^^
+^^^^^^^^^^^^^^^^^^^
+Adding coalition nodes: 
+    [8, 5, 9]
+    [7, 1]
+    Adding Nodes to root....
+        << Highest revenue so far : '10', from partition : [[8, 5, 9]] >>
+        << Revenue of '9' still < highest revenue '10' >>
+    Adding dummy node to node 'root'....
+        << SORTING HEURISTICS FOR RECENTLY ADDED NODES >>
+        [22.333333333333336, 21.5, 15.833333333333332]
+        << HIGHEST HEURISTIC FOUND: 22.3333333333 >>
+        << -- nodes in current task & heuristics: >>
+        --     [[8, 5, 9], +$22.3333333333]
+       << PATH WITH NODE-NAME [[8, 5, 9]] HAS THE HIGHEST REVENUE (22.3333333333), OTHERS HAVE BEEN BLOCKED >>
+        --     [[7, 1], +$21.5]
+        --     [dummy, +$15.8333333333]
+        << DONE BLOCKING PATHS >>
+        WINNER NODE IS ---->>>> [8, 5, 9], 22.3333333333, T2
+        LEAVES ARE:
+            [8, 5, 9], 22.3333333333
+            [7, 1], 21.5
+            dummy, 15.8333333333
+-------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^
+^^^^^ TASK T1 ^^^^^
+^^^^^^^^^^^^^^^^^^^
+Adding coalition nodes: 
+    [10, 6, 2]
+    [7, 3, 6]
+    [6, 10, 9]
+    [4, 6]
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of 'root'....
+    Path to [8, 5, 9] not blocked...
+    For node [8, 5, 9], adding the current coalitions....
+        Adding node [10, 6, 2]....
+        -- current nodes not repeated in path
+        -- items on path [8, 5, 9]
+        -- tasks on path ['T2', 'T1']
+        << Highest revenue so far : '16', from partition : [[8, 5, 9], [10, 6, 2]] >>
+        Adding node [7, 3, 6]....
+        -- current nodes not repeated in path
+        -- items on path [8, 5, 9]
+        -- tasks on path ['T2', 'T1']
+        << Revenue of '15' still < highest revenue '16' >>
+        Adding node [6, 10, 9]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [8, 5, 9]
+        Adding node [4, 6]....
+        -- current nodes not repeated in path
+        -- items on path [8, 5, 9]
+        -- tasks on path ['T2', 'T1']
+        << Revenue of '15' still < highest revenue '16' >>
+Children Added: --->>>>> 3
+      ** Adding dummy node to node '[8, 5, 9]'....
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    !! Path to [7, 1] is blocked, not proceeding !!
+    !! Path to dummy is blocked, not proceeding !!
+        << SORTING HEURISTICS FOR RECENTLY ADDED NODES >>
+        [21.5, 20.0, 17.0, 16.0, 15.833333333333332, 15.0]
+        << HIGHEST HEURISTIC FOUND: 21.5 >>
+        << -- nodes in current task & heuristics: >>
+        --     [[10, 6, 2], +$16.0]
+        --     [[7, 3, 6], +$17.0]
+        --     [[4, 6], +$20.0]
+        --     [dummy, +$15.0]
+        --     [[7, 1], +$21.5]
+       << PATH WITH NODE-NAME [[7, 1]] HAS THE HIGHEST REVENUE (21.5), OTHERS HAVE BEEN BLOCKED >>
+        --     [dummy, +$15.8333333333]
+        << DONE BLOCKING PATHS >>
+        WINNER NODE IS ---->>>> [7, 1], 21.5, T2
+        LEAVES ARE:
+            [10, 6, 2], 16.0
+            [7, 3, 6], 17.0
+            [4, 6], 20.0
+            dummy, 15.0
+            [7, 1], 21.5
+            dummy, 15.8333333333
+-------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^
+^^^^^ TASK T1 ^^^^^
+^^^^^^^^^^^^^^^^^^^
+Adding coalition nodes: 
+    [10, 6, 2]
+    [7, 3, 6]
+    [6, 10, 9]
+    [4, 6]
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of 'root'....
+    Path to [8, 5, 9] not blocked...
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of '[8, 5, 9]'....
+    !! Path to [10, 6, 2] is blocked, not proceeding !!
+    !! Path to [7, 3, 6] is blocked, not proceeding !!
+    !! Path to [4, 6] is blocked, not proceeding !!
+    !! Path to dummy is blocked, not proceeding !!
+    Path to [7, 1] not blocked...
+    For node [7, 1], adding the current coalitions....
+        Adding node [10, 6, 2]....
+        -- current nodes not repeated in path
+        -- items on path [7, 1]
+        -- tasks on path ['T2', 'T1']
+        << Revenue of '15' still < highest revenue '16' >>
+        Adding node [7, 3, 6]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [7, 1]
+        Adding node [6, 10, 9]....
+        -- current nodes not repeated in path
+        -- items on path [7, 1]
+        -- tasks on path ['T2', 'T1']
+        << Highest revenue so far : '17', from partition : [[7, 1], [6, 10, 9]] >>
+        Adding node [4, 6]....
+        -- current nodes not repeated in path
+        -- items on path [7, 1]
+        -- tasks on path ['T2', 'T1']
+        << Revenue of '14' still < highest revenue '17' >>
+Children Added: --->>>>> 3
+      ** Adding dummy node to node '[7, 1]'....
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    !! Path to dummy is blocked, not proceeding !!
+        << SORTING HEURISTICS FOR RECENTLY ADDED NODES >>
+        [20.0, 18.0, 17.0, 17.0, 16.0, 15.833333333333332, 15.0, 15.0, 13.0]
+        << HIGHEST HEURISTIC FOUND: 20.0 >>
+        << -- nodes in current task & heuristics: >>
+        --     [[10, 6, 2], +$16.0]
+        --     [[7, 3, 6], +$17.0]
+        --     [[4, 6], +$20.0]
+       << PATH WITH NODE-NAME [[4, 6]] HAS THE HIGHEST REVENUE (20.0), OTHERS HAVE BEEN BLOCKED >>
+        --     [dummy, +$15.0]
+        --     [[10, 6, 2], +$15.0]
+        --     [[6, 10, 9], +$17.0]
+        --     [[4, 6], +$18.0]
+        --     [dummy, +$13.0]
+        --     [dummy, +$15.8333333333]
+        << DONE BLOCKING PATHS >>
+        WINNER NODE IS ---->>>> [4, 6], 20.0, T1
+        LEAVES ARE:
+            [10, 6, 2], 16.0
+            [7, 3, 6], 17.0
+            [4, 6], 20.0
+            dummy, 15.0
+            [10, 6, 2], 15.0
+            [6, 10, 9], 17.0
+            [4, 6], 18.0
+            dummy, 13.0
+            dummy, 15.8333333333
+-------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^
+^^^^^ TASK T3 ^^^^^
+^^^^^^^^^^^^^^^^^^^
+Adding coalition nodes: 
+    [2, 10, 7]
+    [10]
+    [7, 2]
+    [10, 9]
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of 'root'....
+    Path to [8, 5, 9] not blocked...
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of '[8, 5, 9]'....
+    !! Path to [10, 6, 2] is blocked, not proceeding !!
+    !! Path to [7, 3, 6] is blocked, not proceeding !!
+    Path to [4, 6] not blocked...
+    For node [4, 6], adding the current coalitions....
+        Adding node [2, 10, 7]....
+        -- current nodes not repeated in path
+        -- items on path [8, 5, 9, 4, 6]
+        -- tasks on path ['T2', 'T1', 'T3']
+        << Revenue of '17' still < highest revenue '17' >>
+        Adding node [10]....
+        -- current nodes not repeated in path
+        -- items on path [8, 5, 9, 4, 6]
+        -- tasks on path ['T2', 'T1', 'T3']
+        << Revenue of '17' still < highest revenue '17' >>
+        Adding node [7, 2]....
+        -- current nodes not repeated in path
+        -- items on path [8, 5, 9, 4, 6]
+        -- tasks on path ['T2', 'T1', 'T3']
+        << Highest revenue so far : '18', from partition : [[8, 5, 9], [4, 6], [7, 2]] >>
+        Adding node [10, 9]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [8, 5, 9, 4, 6]
+Children Added: --->>>>> 3
+      ** Skipping adding dummy node to node '[4, 6]'....
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    !! Path to dummy is blocked, not proceeding !!
+    Path to [7, 1] not blocked...
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of '[7, 1]'....
+    !! Path to [10, 6, 2] is blocked, not proceeding !!
+    !! Path to [6, 10, 9] is blocked, not proceeding !!
+    !! Path to [4, 6] is blocked, not proceeding !!
+    !! Path to dummy is blocked, not proceeding !!
+    !! Path to dummy is blocked, not proceeding !!
+        << SORTING HEURISTICS FOR RECENTLY ADDED NODES >>
+        [18.0, 18.0, 17.0, 17.0, 17.0, 17.0, 16.0, 15.833333333333332, 15.0, 15.0, 13.0]
+        << HIGHEST HEURISTIC FOUND: 18.0 >>
+        << -- nodes in current task & heuristics: >>
+        --     [[10, 6, 2], +$16.0]
+        --     [[7, 3, 6], +$17.0]
+        --     [[2, 10, 7], +$17.0]
+        --     [[10], +$17.0]
+        --     [[7, 2], +$18.0]
+       << PATH WITH NODE-NAME [[7, 2]] HAS THE HIGHEST REVENUE (18.0), OTHERS HAVE BEEN BLOCKED >>
+        --     [dummy, +$15.0]
+        --     [[10, 6, 2], +$15.0]
+        --     [[6, 10, 9], +$17.0]
+        --     [[4, 6], +$18.0]
+       << PATH WITH NODE-NAME [[4, 6]] HAS THE HIGHEST REVENUE (18.0), OTHERS HAVE BEEN BLOCKED >>
+        --     [dummy, +$13.0]
+        --     [dummy, +$15.8333333333]
+        << DONE BLOCKING PATHS >>
+        WINNER NODE IS ---->>>> [4, 6], 18.0, T1
+        LEAVES ARE:
+            [10, 6, 2], 16.0
+            [7, 3, 6], 17.0
+            [2, 10, 7], 17.0
+            [10], 17.0
+            [7, 2], 18.0
+            dummy, 15.0
+            [10, 6, 2], 15.0
+            [6, 10, 9], 17.0
+            [4, 6], 18.0
+            dummy, 13.0
+            dummy, 15.8333333333
+-------------------------------------------------------------
+^^^^^^^^^^^^^^^^^^^
+^^^^^ TASK T3 ^^^^^
+^^^^^^^^^^^^^^^^^^^
+Adding coalition nodes: 
+    [2, 10, 7]
+    [10]
+    [7, 2]
+    [10, 9]
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of 'root'....
+    Path to [8, 5, 9] not blocked...
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of '[8, 5, 9]'....
+    !! Path to [10, 6, 2] is blocked, not proceeding !!
+    !! Path to [7, 3, 6] is blocked, not proceeding !!
+    Path to [4, 6] not blocked...
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of '[4, 6]'....
+    !! Path to [2, 10, 7] is blocked, not proceeding !!
+    !! Path to [10] is blocked, not proceeding !!
+    Path to [7, 2] not blocked...
+    For node [7, 2], adding the current coalitions....
+        Adding node [2, 10, 7]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [8, 5, 9, 4, 6, 7, 2]
+        Adding node [10]....
+        -- current nodes not repeated in path
+        -- items on path [8, 5, 9, 4, 6, 7, 2]
+        -- tasks on path ['T2', 'T1', 'T3', 'T3']
+        << Highest revenue so far : '20', from partition : [[8, 5, 9], [4, 6], [7, 2], [10]] >>
+        Adding node [7, 2]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [8, 5, 9, 4, 6, 7, 2]
+        Adding node [10, 9]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [8, 5, 9, 4, 6, 7, 2]
+Children Added: --->>>>> 1
+      ** Skipping adding dummy node to node '[7, 2]'....
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    !! Path to dummy is blocked, not proceeding !!
+    Path to [7, 1] not blocked...
+    - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    Traversing children of '[7, 1]'....
+    !! Path to [10, 6, 2] is blocked, not proceeding !!
+    !! Path to [6, 10, 9] is blocked, not proceeding !!
+    Path to [4, 6] not blocked...
+    For node [4, 6], adding the current coalitions....
+        Adding node [2, 10, 7]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [7, 1, 4, 6]
+        Adding node [10]....
+        -- current nodes not repeated in path
+        -- items on path [7, 1, 4, 6]
+        -- tasks on path ['T2', 'T1', 'T3']
+        << Revenue of '16' still < highest revenue '20' >>
+        Adding node [7, 2]....
+        -- current nodes repeated -> NOT ADDING
+        -- items on path [7, 1, 4, 6]
+        Adding node [10, 9]....
+        -- current nodes not repeated in path
+        -- items on path [7, 1, 4, 6]
+        -- tasks on path ['T2', 'T1', 'T3']
+        << Revenue of '18' still < highest revenue '20' >>
+Children Added: --->>>>> 2
+      ** Skipping adding dummy node to node '[4, 6]'....
+    . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+    !! Path to dummy is blocked, not proceeding !!
+    !! Path to dummy is blocked, not proceeding !!
+        << SORTING HEURISTICS FOR RECENTLY ADDED NODES >>
+        [20.0, 18.0, 17.0, 17.0, 17.0, 17.0, 16.0, 16.0, 15.833333333333332, 15.0, 15.0, 13.0]
+        << HIGHEST HEURISTIC FOUND: 20.0 >>
+        << -- nodes in current task & heuristics: >>
+        --     [[10, 6, 2], +$16.0]
+        --     [[7, 3, 6], +$17.0]
+        --     [[2, 10, 7], +$17.0]
+        --     [[10], +$17.0]
+        --     [[10], +$20.0]
+       << PATH WITH NODE-NAME [[10]] HAS THE HIGHEST REVENUE (20.0), OTHERS HAVE BEEN BLOCKED >>
+        --     [dummy, +$15.0]
+        --     [[10, 6, 2], +$15.0]
+        --     [[6, 10, 9], +$17.0]
+        --     [[10], +$16.0]
+        --     [[10, 9], +$18.0]
+        --     [dummy, +$13.0]
+        --     [dummy, +$15.8333333333]
+        << DONE BLOCKING PATHS >>
+        WINNER NODE IS ---->>>> [10], 20.0, T3
+        LEAVES ARE:
+            [10, 6, 2], 16.0
+            [7, 3, 6], 17.0
+            [2, 10, 7], 17.0
+            [10], 17.0
+            [10], 20.0
+            dummy, 15.0
+            [10, 6, 2], 15.0
+            [6, 10, 9], 17.0
+            [10], 16.0
+            [10, 9], 18.0
+            dummy, 13.0
+            dummy, 15.8333333333
+-------------------------------------------------------------
+Order of Tasks: ['T2', 'T1', 'T3']
+-------------------------------------------------------------
+<<<<<<<<<<< CONSTRUCTING COALITION TREE COMPLETED >>>>>>>>>>>
+-------------------------------------------------------------
+Done adding nodes....
+
+WINNING COALITIONS AND TASKS
+
+Winning coalitions --> [[8, 5, 9], [4, 6], [7, 2], [10]]
+Respective tasks   --> ['T2', 'T1', 'T3', 'T3']
+Revenue fetched    --> 20
+Finished running!!
+----------------------------
+Nodecounts: [17]
+Total: 17
+Mean: 17.0
+Deviation: [0.0]
+Sq. Deviations: [0.0]
+Sum Squared Deviations: 0.0
+DivSum: 0.0
