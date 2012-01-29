@@ -4,14 +4,19 @@ __author__ = 'Spondon Saha'
 import gflags
 import heapq
 import logging
+import os
 import sys
 import time
 import traceback
 import sta.common.utils
 from sta.common.task_container import TaskContainer
+from sta.sta_idastar.coalition_tree import CoalitionTree as IdaCoalitionTree
 
 
 FLAGS = gflags.FLAGS
+COALITION_TREE_CLS = {'regular': None,
+                      'a_star': None,
+                      'ida_star': IdaCoalitionTree}
 
 # flags
 gflags.DEFINE_string('bid_file',
@@ -96,10 +101,11 @@ def GetSubmittedBids(text_stream):
     return list(task_nodes)
 
 
-def RunSTA(task_objects):
+def RunSTA(ctree_cls, task_objects):
     """Runs the IDA* equipped STA algorithm.
 
     Arguments:
+        ctree_cls: The CoalitionTree class to be used for this particular run.
         task_objects: A list of TaskContainer objects containing bids
 
     Raises:
@@ -111,7 +117,7 @@ def RunSTA(task_objects):
     # record the start time
     start = time.time()
     # construct the STA bid tree / coalition tree
-    ctree_obj = CoalitionTree(task_objects)
+    ctree_obj = ctree_cls(task_objects)
     output = ctree_obj.ConstructTree()
     # record end time
     end = time.time()
@@ -135,40 +141,32 @@ def main(argv):
         an exception.
     """
     # setup logging
-    sta.common.utils.SetupLogging(logging.DEBUG)
+    log_filepath = os.path.join(sta.common.utils.DEFAULT_LOG_DIR,
+                                sta.common.utils.DEFAULT_LOG_FILE)
+    sta.common.utils.SetupLogging(logging.DEBUG, log_filepath)
     # get the flag values
     try:
         argv = FLAGS(argv)
     except gflags.FlagsError, ex:
         raise Error('%s \\nUSAGE: %s ARGS\\n%s' % (ex, sys.argv[0], FLAGS))
     # read in submitted bids
-    if FLAGS.bid_file is not None:
-        try:
-            fp = open(FLAGS.bid_file, "r")
-        except IOError, ex:
-            raise Error('Error encountered when opening bid-file: \\n%s' % ex)
+    try:
+        fp = open(FLAGS.bid_file, "r")
+    except IOError, ex:
+        raise Error('Error encountered when opening bid-file: \\n%s' % ex)
     else:
-        raise Error('No bid-file parameter value passed.')
-    # determine the kind of run: ida-star, a-star or regular
-    if FLAGS.sta_run_type is not None:
-        if FLAGS.sta_run_type is 'ida_star':
-            from sta.sta_idastar.coalition_tree import CoalitionTree
-        elif FLAGS.sta_run_type is 'a_star':
-            pass
-        elif FLAGS.sta_run_type is 'regular':
-            pass
-        else:
-            raise Error(('Run type not recognized. Needs to be either of'
-                         'regular, a_star or ida_star. You Entered: '
-                         '%s') % FLAGS.sta_run_type)
-    else:
-        raise Error('No run-type mentioned: ida_star, a_star or regular')
-    # read all file contents
-    submitted_bids = fp.read()
+        submitted_bids = fp.read()  # read all file contents
+    # acquire the CoalitionTree class for the current run requested
+    try:
+        ctree_cls = COALITION_TREE_CLS[FLAGS.sta_run_type]
+    except KeyError, ex:
+        raise Error(('Run type not recognized. Needs to be either of '
+                     'regular, a_star or ida_star. You Entered: '
+                     '%s') % FLAGS.sta_run_type)
     # start the STA algorithm
     try:
         task_container_objects = GetSubmittedBids(submitted_bids)
-        output = RunSTA(task_container_objects)
+        output = RunSTA(ctree_cls, task_container_objects)
     except Exception or StandardError, ex:
         typ, val, tb = sys.exc_info()
         formatted_err_msg = traceback.format_exception(typ, val, tb)
@@ -178,6 +176,8 @@ def main(argv):
         raise Error(err_msg)
     else:
         logging.info('Total Execution time: %s' % output['exe_time'])
+        print >> sys.stdout, 'Completed.'
+        print >> sys.stdout, 'Logs are at: %s' % log_filepath
 
 
 if __name__ == "__main__":

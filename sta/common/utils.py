@@ -14,8 +14,7 @@ class Error(Exception):
 
 
 def SetupLogging(logging_level=DEFAULT_LOGGING_LEVEL,
-                 log_dir=DEFAULT_LOG_DIR,
-                 log_file=DEFAULT_LOG_FILE):
+                 log_filepath=os.path.join(DEFAULT_LOG_DIR, DEFAULT_LOG_FILE)):
     """Sets up the logging parameters.
 
     Uses the logging library to create a log file, set the log-level,
@@ -24,13 +23,12 @@ def SetupLogging(logging_level=DEFAULT_LOGGING_LEVEL,
     Arguments:
         logging_level(optional): A valid logging level, usually DEBUG, INFO,
         WARNING, etc.
-        log_dir(optional): Log directory path
-        log_file(optional): Name of log file
+        log_filepath(optional): Log directory file-path
 
     Raises:
         None
     """
-    logging.basicConfig(filename=os.path.join(log_dir, log_file),
+    logging.basicConfig(filename=log_filepath,
                         filemode='w',
                         level=logging_level,
                         format='%(asctime)s %(levelname)s:: %(message)s',
