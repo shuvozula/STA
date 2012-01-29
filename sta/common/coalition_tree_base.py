@@ -51,7 +51,19 @@ class CoalitionTreeBase(object):
         g + hF.
 
         Arguments:
-            coalitions_on_path: List of coalitions 
+            cbt_list: List of TaskContainer objects that contain bid information
+            coalitions_on_path: List of coalitions already on the current path
+            in the STA tree for the given state.
+            all_tasks_on_path: a list of tasks that have been covered so far
+            already on the current path in the STA tree
+            total_revenue: the total revenue accrued so far from all the bids
+            in the current path.
+
+        Returns:
+            A summation of the total-revenue and the calculated heuristic.
+
+        Raises:
+            None
         """
         g = float(total_revenue)
         #hF = 0.0
