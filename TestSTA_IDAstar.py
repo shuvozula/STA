@@ -31,7 +31,7 @@ def ensure_Dir(f):
 
 def testIDAstar():
 
-    numRobots = 10 # constant
+    num_robots = 10 # constant
     coalitionSize = [1, 9] # 3 for Uniform Distribution, 9 for Random Distribution
     fixedCoalitionSize = True  # True = uniform (higher coalition size is chosen), false = random
     bidSubmissionSizes = range(10, 200, 1)
@@ -76,7 +76,7 @@ def testIDAstar():
                     for avg in range(maxIterations):
 
                         print "Creating data....(" + str(avg) + ")"
-                        data = createData(numRobots, \
+                        data = createData(num_robots, \
                                           maxBidsPerTask, \
                                           coalitionSize, \
                                           bidLimit, \
@@ -186,7 +186,7 @@ def testIDAstar():
 
 def collectData():
 
-    numRobots = 10 # constant
+    num_robots = 10 # constant
     coalitionSize = [1, 6] # 3 for Uniform Distribution, 9 for Random Distribution
     fixedCoalitionSize = True
     bidSubmissionSizes = range(10, 60, 1)
@@ -208,7 +208,7 @@ def collectData():
             for avg in range(maxIterations):
 
                 print "Creating data....(" + str(avg) + ")"
-                data = createData(numRobots, \
+                data = createData(num_robots, \
                                   maxBidsPerTask, \
                                   coalitionSize, \
                                   bidLimit, \

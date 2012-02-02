@@ -9,6 +9,9 @@ import sys
 import time
 import traceback
 import sta.common.utils
+from sta.common.conf import NUM_ROBOTS, COALITION_SIZE_RANGE, BID_LIMIT, \
+                            TASK_SIZE, MAX_BID_VALUE, MAX_BIDS_PER_TASK
+from sta.common.data_generator import GenData
 from sta.common.task_container import TaskContainer
 from sta.sta_idastar.coalition_tree import CoalitionTree as IdaCoalitionTree
 
@@ -19,17 +22,16 @@ COALITION_TREE_CLS = {'regular': None,
                       'ida_star': IdaCoalitionTree}
 
 # flags
+gflags.DEFINE_string('sta_run_type',
+                     None,
+                     'Type of run, either ida_star, astar or regular.')
+
 gflags.DEFINE_string('bid_file',
                      None,
                      'Location of the bid file to create the STA tree.',
                      short_name = 'f')
 
-gflags.DEFINE_string('sta_run_type',
-                     None,
-                     'Type of run, either ida_star, astar or regular.')
-
 # required flags
-gflags.MarkFlagAsRequired('bid_file')
 gflags.MarkFlagAsRequired('sta_run_type')
 
 
@@ -69,19 +71,23 @@ def GetSubmittedBids(text_stream):
     logging.info('Num bids submitted: %s' % len(lines))
     # store coalitions and task bids
     for line in lines:
-        task_id, coalition, bid_value = line.split(' ')
-        # collect coalition
-        coalition = coalition.split(',')
-        coalition = map(lambda x: int(x), coalition)
-        # add coalition to existing task, else create a new TaskContainer
-        # object and make a new entry for coalition
-        if task_id not in task_nodes.keys():
-            new_task_node = TaskContainer(task_id)
-            new_task_node.AddBid(coalition, bid_value)
-            task_nodes[task_id] = [1, new_task_node]  # count, object
+        try:
+            task_id, coalition, bid_value = line.split(' ')
+        except ValueError, ex:
+            logging.info('Line not in correct format: "%s" >> %s' % (line, ex))
         else:
-            task_nodes[task_id][0] += 1
-            task_nodes[task_id][1].AddBid(coalition, bid_value)
+            # collect coalition
+            coalition = coalition.split(',')
+            coalition = [int(x) for x in coalition]
+            # add coalition to existing task, else create a new TaskContainer
+            # object and make a new entry for coalition
+            if task_id not in task_nodes.keys():
+                new_task_node = TaskContainer(task_id)
+                new_task_node.AddBid(coalition, bid_value)
+                task_nodes[task_id] = [1, new_task_node]  # count, object
+            else:
+                task_nodes[task_id][0] += 1
+                task_nodes[task_id][1].AddBid(coalition, bid_value)
     # sort the list based on the number of coalitions assigned to each task
     logging.info('Sorting list of TaskContainer objects to priority queue....')
     task_nodes_heapq = task_nodes.values()
@@ -149,13 +155,22 @@ def main(argv):
         argv = FLAGS(argv)
     except gflags.FlagsError, ex:
         raise Error('%s \\nUSAGE: %s ARGS\\n%s' % (ex, sys.argv[0], FLAGS))
-    # read in submitted bids
-    try:
-        fp = open(FLAGS.bid_file, "r")
-    except IOError, ex:
-        raise Error('Error encountered when opening bid-file: \\n%s' % ex)
-    else:
-        submitted_bids = fp.read()  # read all file contents
+    # read in submitted bids from either a bid-file or data from the data
+    # generator.
+    if FLAGS.bid_file:
+        try:
+            fp = open(FLAGS.bid_file, "r")
+        except IOError, ex:
+            raise Error('Error encountered when opening bid-file: \\n%s' % ex)
+        else:
+            submitted_bids = fp.read()  # read all file contents
+    else:  # use the random data generator
+        try:
+            submitted_bids = GenData(NUM_ROBOTS, COALITION_SIZE_RANGE,
+                                     BID_LIMIT, TASK_SIZE, MAX_BID_VALUE,
+                                     MAX_BIDS_PER_TASK)
+        except sta.common.data_generator.Error, ex:
+            raise Error('Error encountered while generating data!\n%s' % ex)
     # acquire the CoalitionTree class for the current run requested
     try:
         ctree_cls = COALITION_TREE_CLS[FLAGS.sta_run_type]

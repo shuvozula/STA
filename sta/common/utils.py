@@ -2,10 +2,8 @@ __author__ = 'Spondon Saha'
 
 import os
 import logging
-
-DEFAULT_LOGGING_LEVEL = logging.DEBUG
-DEFAULT_LOG_FILE = 'sta.out'
-DEFAULT_LOG_DIR = '/tmp'
+from sta.common.conf import DEFAULT_LOGGING_LEVEL, DEFAULT_LOG_FILE, \
+                            DEFAULT_LOG_DIR
 
 
 class Error(Exception):
