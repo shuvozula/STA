@@ -41,7 +41,8 @@ def GenData(num_robots, coalition_size_range, bid_limit, task_size,
     Raises:
         Error: Whenever we have one of the following problems:
         1. The provided coalition_size_range set does not have 2 elements within
-        2.
+        2. The min. range value in coalition_size_range is greater than the max.
+        range value in coalition_size_range
 
     Returns:
         The generated data as collected in all_bids.
